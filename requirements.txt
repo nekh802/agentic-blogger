@@ -1,0 +1,7 @@
+pillow
+pillow-heif
+python-dotenv
+playwright
+qrcode
+opencv-python-headless
+imageio-ffmpeg
