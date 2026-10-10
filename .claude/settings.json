@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(.venv/bin/python blogger.py preview *)",
+      "Bash(.venv/bin/python blogger.py prepare *)",
+      "Bash(.venv/bin/python blogger.py categories)",
+      "Bash(.venv/bin/python blogger.py --help)",
+      "Bash(pmset -g)",
+      "Bash(pmset -g *)",
+      "Bash(launchctl list)",
+      "Bash(launchctl list *)"
+    ]
+  }
+}

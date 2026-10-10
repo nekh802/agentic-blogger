@@ -35,7 +35,8 @@ import video
 register_heif_opener()  # 아이폰 HEIC 사진 지원
 
 MAX_PHOTOS = 20
-MAX_SIDE = 1600
+MAX_SIDE = 1600  # 얼굴 찾기는 이 크기에서 한다
+UPLOAD_SIDE = 600  # 올리는 사진의 긴 변 (4:3 사진이면 가로 600x450, 세로 450x600)
 EXTS = {".jpg", ".jpeg", ".png", ".webp", ".heic", ".heif"}
 VIDEO_EXTS = {".mov", ".mp4", ".m4v"}
 MAX_VIDEOS = 10  # 네이버 동영상 업로더 한도
@@ -123,6 +124,7 @@ def cmd_prepare(args):
         img, n = faces.mosaic_faces(img)  # 다른 사람 얼굴은 항상 모자이크
         if n:
             print(f"  {i:02d}.jpg: 얼굴 {n}개 모자이크")
+        img.thumbnail((UPLOAD_SIDE, UPLOAD_SIDE), Image.LANCZOS)
         names.append(f"{i:02d}.jpg")
         img.save(out / names[-1], "JPEG", quality=88)
     video_names = []
