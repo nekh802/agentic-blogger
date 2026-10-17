@@ -73,6 +73,7 @@ open output/<시각>/preview.html
 .venv/bin/python blogger.py publish output/<시각>
 ```
 - 크롬이 열려 자동 입력된다. 완료되면 출력된 URL을 사용자에게 알려준다.
+- 사진마다 'AI 활용 설정' 토글은 자동으로 꺼진다(출력 `AI 활용 설정 끔: n/n장` 확인).
 - 동영상은 네이버에 업로드 + 대표 이미지 추출까지 기다리므로(영상당 최대 15분) 동영상이 있으면 `run_in_background: true` 로 실행하고 완료 알림을 기다린다.
 - 원격 요청이거나 발행 전 화면 확인이 필요하면 `--confirm` 을 붙여 `run_in_background: true` 로 실행한다. 출력에 `CONFIRM_WAIT` 가 나오면 같은 폴더의 `confirm.png`(발행 직전 에디터 화면)를 Read 로 보고 사진·동영상 수·지도·본문이 다 들어갔는지 확인해 사용자에게 알린다. 발행 승인을 받으면 `touch output/<시각>/.go`, 취소면 `.cancel`. `.go` 는 `CONFIRM_WAIT` 가 나온 **뒤에** 만들어야 한다(대기 시작 때 기존 신호 파일을 지움).
 - 로그인 창이나 크롬 창이 맥에 열려 있는데 사용자가 원격이면 직접 조작할 수 없으니, 맥 앞에 있을 때 하도록 안내한다.

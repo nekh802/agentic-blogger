@@ -26,6 +26,7 @@ UPLOAD_GAP = 4  # 초. 사진 사이 간격
 SEL_UPLOAD_PROGRESS = ".se-popup-progress"
 SEL_IMAGE_BTN = "button.se-image-toolbar-button"
 SEL_COVER_BTN = ".se-set-rep-image-button"  # 사진 선택 시 왼쪽 위 '대표' 버튼
+SEL_AI_MARK = "button.se-set-ai-mark-button-toggle"  # 사진마다 붙는 'AI 활용 설정' 토글
 SEL_CAPTION = ".se-caption .se-text-paragraph"
 SEL_VIDEO = ".se-component.se-video"
 SEL_VIDEO_BTN = "button.se-video-toolbar-button"  # 툴바 '동영상'
@@ -287,6 +288,26 @@ def _set_cover(page, ed):
     _focus_end(page, ed)
 
 
+def _set_ai_marks(page, ed):
+    """사진마다 붙는 'AI 활용 설정' 토글을 모두 끈다(사용자 요청: 항상 끔)."""
+    imgs = ed.locator(SEL_IMAGE)
+    off = 0
+    for i in range(imgs.count()):
+        img = imgs.nth(i)
+        try:
+            img.locator("img.se-image-resource").click()
+            btn = img.locator(SEL_AI_MARK).first
+            btn.wait_for(timeout=3000)
+            if "se-is-selected" in (btn.get_attribute("class") or ""):
+                btn.click()
+            if "se-is-selected" not in (btn.get_attribute("class") or ""):
+                off += 1
+        except PWTimeout:
+            pass
+    print(f"  AI 활용 설정 끔: {off}/{imgs.count()}장")
+    _focus_end(page, ed)
+
+
 def _select_category(ed, category: str):
     """발행 창에서 카테고리를 고른다. 숫자면 카테고리 번호(이름을 바꾸거나 옮겨도 그대로), 아니면 이름으로 찾는다.
     못 찾으면 예외를 내서 사용자가 직접 고르게 한다."""
@@ -470,6 +491,7 @@ def publish(blog_id: str, title: str, blocks: list[dict], tags: list[str],
             else:
                 page.keyboard.type(footer)  # 장소 검색 실패 시 지도 링크로 대신한다
             _set_cover(page, ed)
+            _set_ai_marks(page, ed)
 
             if confirm:
                 # 원격(휴대폰)에서도 확인할 수 있게 발행 직전 화면을 저장한다
