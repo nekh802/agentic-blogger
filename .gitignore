@@ -10,3 +10,4 @@ events_seen.json
 __pycache__/
 *.pyc
 .DS_Store
+.bin/
